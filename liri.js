@@ -8,12 +8,54 @@ var keys = require("./keys.js");
 var Spotify = require('node-spotify-api');
 var fs = require("fs");
 var axios = require('axios')
+var inquirer = require('inquirer')
+
 
 var searchTerm = process.argv.slice(3).join(" ");;
 var searchType = process.argv[2];
 
+inquirer.prompt([
 
-if(!searchType){
+  {
+    type: "list",
+    name: "type",
+    message: "what would you like to do?",
+    choices: [
+      "1- Search for a song on Spotify",
+      "2- Search for a movie",
+      "3- search for an artist's events",
+      "4- Do what it says"
+    ]
+  },
+  {
+    type: "input",
+    name: "term",
+    message: "Enter search terms if you selected 1-3 (otherwise press enter):"
+  }
+]).then(function(user) {
+ 
+switch (user.type){
+  case "1- Search for a song on Spotify":
+      searchType = "spotify-this-song"
+      break;
+  case "2- Search for a movie":
+      searchType = "movie-this"
+      break;
+  case "3- search for an artist's events":
+      searchType = "concert-this"
+      break;
+  case "4- Do what it says":
+      searchType = "do-what-it-says"
+      break;
+   default: "movie-this"   
+}
+
+if(user.term){
+  searchTerm = user.term
+
+}
+
+if(!user.type){
   searchTerm  = "Mr. Nobody";
   movieThis()
 
@@ -37,7 +79,7 @@ else if(searchType==="do-what-it-says") {
   doWhatItSays()
 
 }
-
+})
 
 function movieThis(){
   
@@ -88,7 +130,7 @@ function spotifyThis() {
   var spotify = new Spotify(keys.spotify);
 
   spotify
-    .search({ type: 'track', query: searchTerm, limit: 30 })
+    .search({ type: 'track', query: searchTerm, limit: 5 })
     .then(function(response) {
   
       for(var i =0; i < response.tracks.items.length; i++){
@@ -144,18 +186,39 @@ function spotifyThis() {
 
     var content;
     // First I want to read the file
-    fs.readFile("random.txt", function read(err, data) {
+    fs.readFile("random.txt","utf8", function read(err, data) {
         if (err) {
             throw err;
         }
         content = data;
     
-        // Invoke the next step here however you like
-        console.log(content);   // Put all of the code here (not the best solution)
-        processFile();          // Or put the next step in a function and invoke it
+ 
+        processFile();          // put the next step in a function and invoke it
     });
     
     function processFile() {
-        console.log(content);
+
+      var slice = content.split(",")
+      console.log(content);
+      searchType= slice[0];
+      searchTerm = slice[1].replace(/['"]+/g, '');
+
+      switch (searchType){
+        case "spotify-this-song":
+          spotifyThis();
+          break;   
+        case "concert-this":
+          concertThis();
+            break;   
+        case "movie-this":
+          movieThis();
+           break;
+        default:
+          searchTerm = "Mr. Nobody"
+          spotifyThis();   
+      }
+
+
+
     }
   }
