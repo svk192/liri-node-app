@@ -3,8 +3,6 @@ require("dotenv").config();
 
 
 var keys = require("./keys.js");
-
-
 var Spotify = require('node-spotify-api');
 var fs = require("fs");
 var axios = require('axios')
@@ -16,6 +14,7 @@ var searchTerm = process.argv.slice(3).join(" ");;
 var searchType = process.argv[2];
 
 function startLIRI () {
+
 inquirer.prompt([
 
   {
@@ -103,7 +102,7 @@ else {
 
 function movieThis(){
   
-  axios.get('https://www.omdbapi.com/?t='+ searchTerm+ '&y=&plot=short&apikey=9aa7958d')
+  axios.get('https://www.omdbapi.com/?t='+ searchTerm+ '&y=&plot=short&apikey=' + process.env.OMDB)
   .then(function(response) {
     var holdData = []
       var separator = "------------------------------------------"
@@ -189,7 +188,7 @@ function spotifyThis() {
   }
 
   function concertThis()
-  {axios.get('https://rest.bandsintown.com/artists/' + searchTerm + '/events?app_id=codingbootcamp')
+  {axios.get('https://rest.bandsintown.com/artists/' + searchTerm + '/events?app_id=' + process.env.BIT)
   .then(function(response) {
 
     var holdData = ["searchTerm: ", searchTerm,"\n"]
