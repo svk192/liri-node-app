@@ -9,29 +9,35 @@ LIRI is a _Language_ Interpretation and Recognition Interface. It is a command l
  * OMDB for movies 
  
 
-## How to use LIRI
+## How to use LIRI 
 
-LIRI will begin by asking you what you want to search for: 
+1) Open the terminal and make sure you are in LIRI's directory 
 
- ![Results](/screencaps/Start.PNG)
+2) Install packages using the `npm i` command. A list of the packages used can be found under the **Technologies Used** section  
 
-You can enter a search term: 
+3) Run liri.js with the node command
 
- ![Results](/screencaps/Spotify Search.PNG)
+4) LIRI will begin by asking you what you want to search for: 
+
+ ![Results](/screencaps/start.png) 
+
+You can enter a search term if you chose the spotify, movie or artist even option: 
+
+ ![Results](/screencaps/Spotify Search.png)
 
 It will display the results from the option you chose:
 
- ![Results](/screencaps/Spotify Result.PNG) 
+ ![Results](/screencaps/Spotify Result.png) 
  
- ![Results](/screencaps/Movie Result.PNG)
+ ![Results](/screencaps/Movie Result.png)
 
-  ![Results](/screencaps/Bands Result.PNG)
+![Results](/screencaps/Bands Result.png)
 
 You can also search for the item listed in the text file e.g. search spotify for "I want it that way"
-  ![Results](/screencaps/Do what.PNG)
+  ![Results](/screencaps/Dowhat.png)
 
  And finally, it will exit when the user wants to quit the program. 
-  ![Results](/screencaps/exit.PNG)
+  ![Results](/screencaps/exit.png)
 
   
 - - -
