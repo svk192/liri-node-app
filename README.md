@@ -19,25 +19,31 @@ LIRI is a _Language_ Interpretation and Recognition Interface. It is a command l
 
 4) LIRI will begin by asking you what you want to search for: 
 
- ![Results](/screencaps/start.png) 
+<img src="/screencaps/Start.png" alt="start" title="Start" width="300" height="150" />
 
 You can enter a search term if you chose the spotify, movie or artist even option: 
 
- ![Results](/screencaps/Spotify Search.png)
+<img src="/screencaps/Spotify Search.png" alt="start" title="Start" width="300" height="150" />
 
 It will display the results from the option you chose:
 
- ![Results](/screencaps/Spotify Result.png) 
- 
- ![Results](/screencaps/Movie Result.png)
+<img src="/screencaps/Spotify Result.png" alt="start" title="Start" width="300" height="150" />
 
-![Results](/screencaps/Bands Result.png)
+
+<img src="/screencaps/Movie Result.png" alt="start" title="Start" width="300" height="150" />
+
+
+<img src="/screencaps/Bands Result.png" alt="start" title="Start" width="300" height="150" />
+
 
 You can also search for the item listed in the text file e.g. search spotify for "I want it that way"
-  ![Results](/screencaps/Dowhat.png)
+
+<img src="/screencaps/Dowhat.png" alt="start" title="Start" width="300" height="150" />
+
 
  And finally, it will exit when the user wants to quit the program. 
-  ![Results](/screencaps/exit.png)
+
+  <img src="/screencaps/exit.png" alt="start" title="Start" width="300" height="150" />
 
   
 - - -
