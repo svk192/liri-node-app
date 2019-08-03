@@ -23,17 +23,17 @@ LIRI is a _Language_ Interpretation and Recognition Interface. It is a command l
 
 You can enter a search term if you chose the spotify, movie or artist even option: 
 
-<img src="/screencaps/Spotify Search.png" alt="start" title="Start" width="300" height="150" />
+<img src="/screencaps/Spotify Search.png" alt="start" title="Start" width="400" height="50" />
 
 It will display the results from the option you chose:
 
-<img src="/screencaps/Spotify Result.png" alt="start" title="Start" width="300" height="150" />
+<img src="/screencaps/Spotify Result.png" alt="start" title="Start" width="400" height="150" />
 
 
-<img src="/screencaps/Movie Result.png" alt="start" title="Start" width="300" height="150" />
+<img src="/screencaps/Movie Result.png" alt="start" title="Start" width="250" height="270" />
 
 
-<img src="/screencaps/Bands Result.png" alt="start" title="Start" width="300" height="150" />
+<img src="/screencaps/Bands Result.png" alt="start" title="Start" width="200" height="200" />
 
 
 You can also search for the item listed in the text file e.g. search spotify for "I want it that way"
@@ -43,7 +43,7 @@ You can also search for the item listed in the text file e.g. search spotify for
 
  And finally, it will exit when the user wants to quit the program. 
 
-  <img src="/screencaps/exit.png" alt="start" title="Start" width="300" height="150" />
+  <img src="/screencaps/exit.png" alt="start" title="Start" width="400" height="50" />
 
   
 - - -
