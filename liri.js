@@ -9,11 +9,13 @@ var Spotify = require('node-spotify-api');
 var fs = require("fs");
 var axios = require('axios')
 var inquirer = require('inquirer')
+var moment = require('moment')
 
 
 var searchTerm = process.argv.slice(3).join(" ");;
 var searchType = process.argv[2];
 
+function startLIRI () {
 inquirer.prompt([
 
   {
@@ -24,14 +26,11 @@ inquirer.prompt([
       "1- Search for a song on Spotify",
       "2- Search for a movie",
       "3- search for an artist's events",
-      "4- Do what it says"
+      "4- Do what it says",
+      "5- Exit LIRI"
     ]
   },
-  {
-    type: "input",
-    name: "term",
-    message: "Enter search terms if you selected 1-3 (otherwise press enter):"
-  }
+ 
 ]).then(function(user) {
  
 switch (user.type){
@@ -47,15 +46,28 @@ switch (user.type){
   case "4- Do what it says":
       searchType = "do-what-it-says"
       break;
+  case "5- Exit LIRI":
+      searchType = "exit"
+          break;
    default: "movie-this"   
 }
+
+if(searchType !== "exit" && searchType !== "do-what-it-says"){
+inquirer.prompt([{
+  type: "input",
+  name: "term",
+  message: "Enter search terms"
+}
+
+]).then(function(user) {
+
 
 if(user.term){
   searchTerm = user.term
 
 }
 
-if(!user.type){
+if(!searchType){
   searchTerm  = "Mr. Nobody";
   movieThis()
 
@@ -74,24 +86,30 @@ else if(searchType==="movie-this") {
 
   movieThis()
 }
+})
+}
+
 else if(searchType==="do-what-it-says") {
 
   doWhatItSays()
 
 }
+else {
+  console.log("Goodbye!")
+}
 })
+
+}
 
 function movieThis(){
   
   axios.get('https://www.omdbapi.com/?t='+ searchTerm+ '&y=&plot=short&apikey=9aa7958d')
   .then(function(response) {
-  
+    var holdData = []
+      var separator = "------------------------------------------"
+
   var jsonData=  response.data
-  // console.log(jsonData)
-  // If the axios was successful...
-      // Then log the body from the site!
-      // for(var i =0; i < jsonData.length; i++){
-        console.log("------------------------------------------")
+        console.log(separator)
         console.log("Title: " + jsonData.Title);
         console.log("Year: " + jsonData.Year);
         console.log("imdb Rating: " + jsonData.imdbRating);
@@ -101,10 +119,21 @@ function movieThis(){
         console.log("Plot: " + jsonData.Plot);
         
         console.log("Actors: " + jsonData.Actors);
-  
-        console.log("------------------------------------------")      
-  // }
-    })
+        console.log("\n\n\n");
+
+         
+        holdData.push(separator,"\n",
+        "searchTerm: ", searchTerm,"\n",
+        jsonData.Title,"\n", 
+        jsonData.Year,"\n", 
+        jsonData.imdbRating,"\n")
+
+        fs.appendFile("log.txt", holdData + "---------", function(err) {
+          if (err) throw err;
+        }); 
+
+        startLIRI() 
+      })
     .catch(function(error) {
       if (error.response) {
         // The request was made and the server responded with a status code
@@ -132,15 +161,27 @@ function spotifyThis() {
   spotify
     .search({ type: 'track', query: searchTerm, limit: 5 })
     .then(function(response) {
-  
+      var holdData = ["searchTerm: ", searchTerm,"\n"]
+      var separator = "------------------------------------------"
       for(var i =0; i < response.tracks.items.length; i++){
-          console.log("------------------------------------------")
+          console.log(separator)
           console.log("Name: " + response.tracks.items[i].name)
           console.log("Album Name: " + response.tracks.items[i].album.name)
           console.log("Preview URL: " + response.tracks.items[i].preview_url)
-          console.log("Artists: " + response.tracks.items[i].artists[0].name)
-          console.log("------------------------------------------")      
-  }
+          console.log("Artists: " + response.tracks.items[i].artists[0].name)   
+          
+          holdData.push(separator,"\n",  
+          response.tracks.items[i].name,"\n", 
+          response.tracks.items[i].album.name,"\n", 
+          response.tracks.items[i].artists[0].name,"\n")
+
+        }
+
+        fs.appendFile("log.txt", holdData + "---------", function(err) {
+          if (err) throw err;
+        });  
+
+        startLIRI() 
     })
     .catch(function(err) {
       console.log(err);
@@ -150,18 +191,27 @@ function spotifyThis() {
   function concertThis()
   {axios.get('https://rest.bandsintown.com/artists/' + searchTerm + '/events?app_id=codingbootcamp')
   .then(function(response) {
-      // If the axios was successful...
-      // Then log the body from the site!
-      // console.log(response.data[0])
-      
+
+    var holdData = ["searchTerm: ", searchTerm,"\n"]
+      var separator = "------------------------------------------"
       for(var i =0; i < response.data.length; i++){
-        console.log("------------------------------------------")
-        // console.log(response);
+        holdData.push(separator,"\n",
+          response.data[i].venue.name,"\n", 
+          response.data[i].venue.city,"\n", 
+          response.data[i].datetime,"\n")
+
+          var datetime =  moment(response.data[i].datetime, moment.HTML5_FMT.DATETIME_LOCAL_SECONDS).format('DD-MM-YYYY HH:mm:ss');
+
+        console.log(separator)
         console.log("Venue: " + response.data[i].venue.name);
         console.log("City: " + response.data[i].venue.city);
-        console.log("Date: " + response.data[i].datetime);
-        console.log("------------------------------------------")      
+        console.log("Date: " + datetime);       
   }
+  fs.appendFile("log.txt", holdData + "---------", function(err) {
+    if (err) throw err;
+  }); 
+  startLIRI() 
+  
     })
     .catch(function(error) {
       if (error.response) {
@@ -219,6 +269,7 @@ function spotifyThis() {
       }
 
 
-
     }
   }
+
+  startLIRI() 
